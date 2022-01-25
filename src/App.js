@@ -7,14 +7,7 @@ import Particles from 'react-tsparticles';
 import { Component } from 'react';
 
 
-const particlesOptions = {
-  particles: {
-    number: {
-        value: 160,
-        density: {
-            enable: true,
-            value_area: 800
-}}}};
+const particlesOptions = {}
 
 
 class App extends Component {

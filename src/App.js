@@ -8,46 +8,38 @@ import { Component } from 'react';
 
 
 const particlesOptions = {
-  "particles": {
-    "number": {
-        "value": 160,
-        "density": {
-            "enable": false
-        }
-    },
-    "size": {
-        "value": 10,
-        "random": true
-    },
-    "move": {
-        "direction": "bottom",
-        "out_mode": "out"
-    },
-    "line_linked": {
-        "enable": false
-    }
-},
-"interactivity": {
-    "events": {
-        "onclick": {
-            "enable": true,
-            "mode": "remove"
-        }
-    },
-    "modes": {
-        "remove": {
-            "particles_nb": 10
-        }
-    }
-}
-}
+  particles: {
+    number: {
+        value: 160,
+        density: {
+            enable: true,
+            value_area: 800
+}}}};
 
 
 class App extends Component {
   render() {
     return (
       <div className="App">
-        <Particles className='' params={{particlesOptions}} />
+        <Particles className='particles'
+    params={{
+	    "particles": {
+	        "number": {
+	            "value": 160,
+	            "density": {
+	                "enable": false
+	            }
+	        },
+	        "size": {
+	            "value": 10,
+	            "random": true
+	        },
+	        "move": {
+	            "direction": "bottom",
+	            "out_mode": "out"
+	        },
+	    },
+	}} />
         <Navigation />
         <Logo />
         <Rank />

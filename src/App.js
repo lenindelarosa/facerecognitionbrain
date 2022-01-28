@@ -7,6 +7,7 @@ import Particles from 'react-tsparticles';
 import { Component } from 'react';
 import Clarifai from 'clarifai'
 import FaceRecognition from './components/FaceRecognition/FaceRecognition';
+import Signin from './components/Signin/Signin';
 
 
 const particlesOptions = {
@@ -71,6 +72,7 @@ class App extends Component {
       <div className="App">
         <Particles id='tsparticles' options={{particlesOptions}}/>
         <Navigation />
+		<Signin />
         <Logo />
         <Rank />
         <ImageLinkForm onInputChange={this.onInputChange} onButtonSubmit={this.onButtonSubmit}/>

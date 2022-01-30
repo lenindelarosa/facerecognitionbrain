@@ -11,14 +11,18 @@ import Signin from './components/Signin/Signin';
 import Register from './components/Register/Register';
 
 
-const particlesOptions = {
-	background: {
-		color: {
-		  value: "#0d47a1"
-		}
-	}
-}
 
+const particlesOptions = {
+	particles: {
+	  number: {
+		value: 30,
+		density: {
+		  enable: true,
+		  value_area: 800
+		}
+	  }
+	}
+  }
 
 const app = new Clarifai.App({apiKey: '7789afab63904f769efd2a89f57c8dc7'})
 
@@ -83,7 +87,7 @@ class App extends Component {
 	  const { isSignedIn, imageUrl, route, box } = this.state;
     return (
       <div className="App">
-        <Particles id='tsparticles' options={{particlesOptions}}/>
+        <Particles className='particles' params={particlesOptions}/>
         <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn}/>
 		{ route==='home'
 			?<div>

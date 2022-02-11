@@ -179,13 +179,18 @@ class App extends Component {
 //console.log(response.outputs[0].data.regions[0].region_info.bounding_box)
 
 	onRouteChange = (route) =>{
-		if (route==='signout'){
+		if (route != 'signout'){
+			if(route === 'home') {
+				this.setState({isSignedIn: true});
+				this.setState({route: route});
+			} else {
+			this.setState({route: route});
+			}
+		} else {
 			this.setState(initialState);
-		} else if(route === 'home') {
-			this.setState({isSignedIn: true})
+			this.setState({route: 'signin'});
 		}
-		this.setState({route: route});
-	}
+}
 
   render() {
 	  const { isSignedIn, imageUrl, route, box } = this.state;
@@ -197,7 +202,7 @@ class App extends Component {
 			//init={particlesInit}
 			//loaded={particlesLoaded}
 		/>
-        <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn}/>
+        <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} route={route}/>
 		{ route==='home'
 			?<div>
 			<Logo />
@@ -210,6 +215,7 @@ class App extends Component {
 				route==='signin'
 				? <Signin loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>
 				: <Register loadUser={this.loadUser} onRouteChange={this.onRouteChange}/>
+				
 			)
 		}
       </div>

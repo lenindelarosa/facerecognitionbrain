@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 export default function Signin (props) {
  
@@ -13,7 +13,7 @@ export default function Signin (props) {
         setSignInPassword(event.target.value);
     }
 
-    const onSubmitSignIn = () => {
+    const onSubmitSignIn = async () => {
         fetch('https://ldsmartbrainapi.herokuapp.com/signin', {
             method: 'post',
             headers: {'Content-Type': 'application/json'},
@@ -22,14 +22,29 @@ export default function Signin (props) {
                 password: signInPassword
             })
         })
-            .then(response => response.json())
-            .then(user => {
-                if (user.id){
-                    props.loadUser(user);
-                    props.onRouteChange('home');
-                }
-            })
+        .then(response => response.json())
+        .then(user => {
+            if (user.id){
+                props.loadUser(user);
+                props.onRouteChange('home');
+            }
+        })
     }
+
+    useEffect(() => {
+        const listener = (event) => {
+          if (event.code === "Enter" || event.code === "NumpadEnter") {
+            console.log("Enter key was pressed. Run your function.");
+            event.preventDefault();
+            onSubmitSignIn();
+          }
+        };
+        document.addEventListener("keydown", listener);
+        return () => {
+            document.removeEventListener("keydown", listener);
+            console.log('removing listener.')
+          };
+      }, []);
 
     const { onRouteChange } = props;
     return (
@@ -37,9 +52,9 @@ export default function Signin (props) {
         <main className="pa4 black-80">
             <div className="measure">
                 <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
-                <legend className="f4 fw6 ph0 mh0">Sign In</legend>
+                <legend className="f3 fw6 ph0 mh0 blue b underline">Sign In</legend>
                 <div className="mt3">
-                    <label className="db fw6 lh-copy f6" htmlFor="email-address">Email</label>
+                    <label className="db fw6 lh-copy f5 bg white b" htmlFor="email-address">Email</label>
                     <input 
                         className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" 
                         type="email" 
@@ -52,7 +67,7 @@ export default function Signin (props) {
                     />
                 </div>
                 <div className="mv3">
-                    <label className="db fw6 lh-copy f6" htmlFor="password">Password</label>
+                    <label className="db fw6 lh-copy f5 bg white b" htmlFor="password">Password</label>
                     <input 
                         className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" 
                         type="password" 
@@ -63,13 +78,13 @@ export default function Signin (props) {
                 </div>
                 </fieldset>
                 <div className="">
-                    <input className="b ph3 pv2 input-reset ba b--black bg-transparent grow pointer f6 dib" 
+                    <input className="b ph3 pv2 input-reset ba b--black bg-white grow pointer f6 dib" 
                     onClick={onSubmitSignIn}
                     type="submit" 
                     value="Sign in" />
                 </div>
                 <div className="lh-copy mt3">
-                    <p onClick={() => onRouteChange('register')} href="#0" className="f6 link dim black db">Register</p>
+                    <p onClick={() => onRouteChange('register')} href="#0" className="f5 pointer dim black db b">Register</p>
                 </div>
             </div>
         </main>

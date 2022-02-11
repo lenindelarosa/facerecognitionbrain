@@ -8,7 +8,6 @@ import { Component } from 'react';
 import FaceRecognition from './components/FaceRecognition/FaceRecognition';
 import Signin from './components/Signin/Signin';
 import Register from './components/Register/Register';
-import { useForm } from "react-hook-form";
 
 
 const particlesOptions = {
@@ -92,7 +91,7 @@ const particlesOptions = {
 const initialState = {
 	input: '',
 	imageUrl: '',
-	box: {},
+	box: [],
 	route: 'signin',
 	isSignedIn: false,
 	user: {
@@ -123,28 +122,28 @@ class App extends Component {
 	)}
 
 	calculateFaceLocation = (data) => {
-		const clarifaiFace = data.outputs[0].data.regions[0].region_info.bounding_box;
 		const image = document.getElementById('inputimage')
 		const width = Number(image.width);
 		const height = Number(image.height);
-		console.log(width, height);
-		return {
-			leftCol: clarifaiFace.left_col * width,
-			topRow: clarifaiFace.top_row * height,
-			rightCol: width - (clarifaiFace.right_col * width),
-			bottomRow: height - (clarifaiFace.bottom_row * height)
-
-		}
+		let boxes = data.outputs[0].data.regions.map(face => {
+			let bounding_box = face.region_info.bounding_box;
+			return {
+				leftCol: bounding_box.left_col * width,
+				topRow: bounding_box.top_row * height,
+				rightCol: width - (bounding_box.right_col * width),
+				bottomRow: height - (bounding_box.bottom_row * height)
+			}
+		});
+		console.log(boxes);
+		return boxes;
 	}
 
 	displayFaceBox = (box) => {
-		console.log(box);
 		this.setState({box: box});
 	}
 
 	onInputChange = (event) => {
 		this.setState({input: event.target.value})
-		console.log(this.state.input);
 	}
 
 	onButtonSubmit = (event) => {
@@ -176,10 +175,9 @@ class App extends Component {
 			})
 			.catch(err => console.log(err))
 	}
-//console.log(response.outputs[0].data.regions[0].region_info.bounding_box)
 
 	onRouteChange = (route) =>{
-		if (route != 'signout'){
+		if (route !== 'signout'){
 			if(route === 'home') {
 				this.setState({isSignedIn: true});
 				this.setState({route: route});
@@ -193,14 +191,12 @@ class App extends Component {
 }
 
   render() {
-	  const { isSignedIn, imageUrl, route, box } = this.state;
+	const { isSignedIn, imageUrl, route, box } = this.state;
     return (
       <div className="App">
         <Particles 
 			className='particles' 
 			params={particlesOptions}
-			//init={particlesInit}
-			//loaded={particlesLoaded}
 		/>
         <Navigation onRouteChange={this.onRouteChange} isSignedIn={isSignedIn} route={route}/>
 		{ route==='home'

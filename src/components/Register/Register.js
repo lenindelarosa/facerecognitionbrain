@@ -8,22 +8,18 @@ export default function Register(props) {
     const [password, setPassword] = useState('');
 
       // States for checking the errors
-    const [submitted, setSubmitted] = useState(false);
     const [error, setError] = useState(false);
 
     const onNameChange = (event) => {
         setName(event.target.value);
-        setSubmitted(false);
     }
 
     const onEmailChange = (event) => {
         setEmail(event.target.value);
-        setSubmitted(false);
     }
 
     const onPasswordChange = (event) => {
         setPassword(event.target.value);
-        setSubmitted(false);
     }
 
     const errorMessage = () => {
@@ -54,7 +50,6 @@ export default function Register(props) {
                     props.onRouteChange('home');
                 }
             })
-            setSubmitted(true);
             setError(false);
         }
     }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 
 export default function Signin (props) {
  
@@ -31,20 +31,20 @@ export default function Signin (props) {
         })
     }
 
-    useEffect(() => {
-        const listener = (event) => {
-          if (event.code === "Enter" || event.code === "NumpadEnter") {
-            console.log("Enter key was pressed. Run your function.");
-            event.preventDefault();
-            onSubmitSignIn();
-          }
-        };
-        document.addEventListener("keydown", listener);
-        return () => {
-            document.removeEventListener("keydown", listener);
-            console.log('removing listener.')
-          };
-      }, []);
+    // useEffect(() => {
+    //     const listener = (event) => {
+    //       if (event.code === "Enter" || event.code === "NumpadEnter") {
+    //         console.log("Enter key was pressed. Run your function.");
+    //         event.preventDefault();
+    //         onSubmitSignIn();
+    //       }
+    //     };
+    //     document.addEventListener("keydown", listener);
+    //     return () => {
+    //         document.removeEventListener("keydown", listener);
+    //         console.log('removing listener.')
+    //       };
+    //   }, []);
 
     const { onRouteChange } = props;
     return (

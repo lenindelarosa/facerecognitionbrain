@@ -1,7 +1,7 @@
 import React from 'react';
 
 const Navigation = ({ onRouteChange, isSignedIn, route }) => {
-    if(isSignedIn & route!='register'){
+    if(isSignedIn & route!=='register'){
         return(
                 <nav style={{display: 'flex', justifyContent: 'flex-end'}}
                     className='dt w-100 mw8 center'>
@@ -10,7 +10,7 @@ const Navigation = ({ onRouteChange, isSignedIn, route }) => {
                 >Sign out</p>
                 </nav>
             );
-    } else if(!isSignedIn & route!='register') {
+    } else if(!isSignedIn & route!=='register') {
         return (
             <nav style={{display: 'flex', justifyContent: 'flex-end'}}
                 className='dt w-100 mw8 center'>

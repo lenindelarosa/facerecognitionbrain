@@ -42,8 +42,8 @@ export default function Signin (props) {
                     props.loadUser(user);
                     props.onRouteChange('home');
                 }
-            })
-        },
+            }) 
+        }
       });
 
     // useEffect(() => {

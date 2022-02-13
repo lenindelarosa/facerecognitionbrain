@@ -1,46 +1,41 @@
 import { React, useState } from 'react';
+import { useFormik } from 'formik'
+
+const validate = values => {
+    const errors = {};
+    if (!values.name) {
+        errors.name = '*Required';
+    }
+    if (!values.email) {
+      errors.email = '*Required';
+    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+      errors.email = 'Invalid email address';
+    }
+    if (!values.password) {
+        errors.password = '*Required';
+      } else if (values.password.length <8) {
+        errors.password = 'Password must 8 characters long.';
+      }
+    return errors;
+  };
 
 export default function Register(props) {
 
-      // States for registration
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-
-      // States for checking the errors
-    const [error, setError] = useState(false);
-
-    const onNameChange = (event) => {
-        setName(event.target.value);
-    }
-
-    const onEmailChange = (event) => {
-        setEmail(event.target.value);
-    }
-
-    const onPasswordChange = (event) => {
-        setPassword(event.target.value);
-    }
-
-    const errorMessage = () => {
-        return (
-            error ? 'Please enter all the fields.' : ''
-        );
-    };
-
-    const onSubmitSignIn = (event) => {
-        event.preventDefault();
-        if (!email || !password || !name){
-            setError(true);
-        } else {
-            console.log(email, name,password);
+    const formik = useFormik({
+        initialValues: {
+            name: '',
+            email: '',
+            password: ''
+        },
+        validate,
+        onSubmit: values => {
             fetch('https://ldsmartbrainapi.herokuapp.com/register', {
                 method: 'post',
                 headers: {'Content-Type': 'application/json'},
                 body: JSON.stringify({
-                    email: email,
-                    password: password,
-                    name: name
+                    email: values.email,
+                    password: values.password,
+                    name: values.name
                 })
             })
             .then(response => response.json())
@@ -50,14 +45,12 @@ export default function Register(props) {
                     props.onRouteChange('home');
                 }
             })
-            setError(false);
-        }
-    }
+    }});
     return (
         <article className="br3 ba dark-gray b--black-10 mv4 w-100 w-50-m w-25-l mw5 shadow-5 center">
             <main className="pa4 black-80">
                 <div className="measure">
-                    <fieldset id="sign_up" className="ba b--transparent ph0 mh0">
+                    <form id="sign_up" onSubmit={formik.handleSubmit} className="ba b--transparent ph0 mh0">
                     <legend className="f3 fw6 ph0 mh0 blue b underline">Register</legend>
                     <div className="mt3">
                         <label className="db fw6 lh-copy f5 white b" htmlFor="name">Name</label>
@@ -66,19 +59,29 @@ export default function Register(props) {
                             type="text" 
                             name="name"  
                             id="name"
-                            onChange={onNameChange}
+                            onChange={formik.handleChange}
+                            value={formik.values.name}
+                            onBlur={formik.handleBlur}
                         />
                     </div>
+                    {formik.touched.name && formik.errors.name ? (
+                    <div className="red pa1 b underline f6">{formik.errors.name}</div>
+                ) : null}
                     <div className="mv3">
                         <label className="db fw6 lh-copy f5 bg white b" htmlFor="email-address">Email</label>
                         <input 
                             className="pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" 
                             type="email" 
-                            name="email-address"  
-                            id="email-address" 
-                            onChange={onEmailChange}
+                            name="email"  
+                            id="email" 
+                            onChange={formik.handleChange}
+                            value={formik.values.email}
+                            onBlur={formik.handleBlur}
                         />
                     </div>
+                    {formik.touched.email && formik.errors.email ? (
+                    <div className="red pa1 b underline f6">{formik.errors.email}</div>
+                ) : null}
                     <div className="mv3">
                         <label className="db fw6 lh-copy f5 white b" htmlFor="password">Password</label>
                         <input 
@@ -86,19 +89,24 @@ export default function Register(props) {
                             type="password" 
                             name="password"  
                             id="password" 
-                            onChange={onPasswordChange}
+                            onChange={formik.handleChange}
+                            value={formik.values.password}
+                            onBlur={formik.handleBlur}
                         />
                     </div>
-                    </fieldset>
+                    {formik.touched.password && formik.errors.password ? (
+                    <div className="red pa1 b underline f6">{formik.errors.password}</div>
+                    ) : null}
                     <div className="">
                         <input className="b ph3 pv2 input-reset ba b--black bg-white grow pointer f6 dib" 
-                        onClick={onSubmitSignIn}
+                        //onClick={onSubmitSignIn}
                         type="submit" 
                         value="Register!" />
                     </div>
-                    <div className="lh-copy mt3 red">
-                        <p className='db fw6 lh-copy f6'>{errorMessage()}</p>
-                    </div>
+                    </form>
+                    {/* <div className="lh-copy mt3 red">
+                        <p className='db fw6 lh-copy f6'></p>
+                    </div> */}
                 </div>
             </main>
         </article>

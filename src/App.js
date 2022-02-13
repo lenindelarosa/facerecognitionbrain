@@ -134,7 +134,6 @@ class App extends Component {
 				bottomRow: height - (bounding_box.bottom_row * height)
 			}
 		});
-		console.log(boxes);
 		return boxes;
 	}
 

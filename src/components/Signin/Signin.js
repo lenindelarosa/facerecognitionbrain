@@ -9,12 +9,12 @@ const validate = values => {
     if (!values.email) {
       errors.email = '*Required';
     } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
-      errors.email = 'Invalid email address';
+      errors.email = '*Invalid email address';
     }
     if (!values.password) {
         errors.password = '*Required';
-      } else if (values.password.length >3) {
-        errors.password = 'Password must not be empty.';
+      } else if (values.password.length <3) {
+        errors.password = '*Password must not be empty.';
       }
     return errors;
   };
@@ -81,9 +81,9 @@ export default function Signin (props) {
                     />
                 </div>
                 {formik.touched.email && formik.errors.email ? (
-                    <div className="red pa1 b underline f6">{formik.errors.email}</div>
+                    <div className="red pa1 b underline f7 tl">{formik.errors.email}</div>
                 ) : null}
-                <div className="mv3">
+                <div className="mt3">
                     <label className="db fw6 lh-copy f5 bg white b" htmlFor="password">Password</label>
                     <input 
                         className="b pa2 input-reset ba bg-transparent hover-bg-black hover-white w-100" 
@@ -96,9 +96,9 @@ export default function Signin (props) {
                     />
                 </div>
                 {formik.touched.password && formik.errors.password ? (
-                    <div className="red pa1 b underline f6">{formik.errors.password}</div>
+                    <div className="red pa1 b underline f7 tl">{formik.errors.password}</div>
                 ) : null}
-                <div className="">
+                <div className="mt3">
                     <input className="b ph3 pv2 input-reset ba b--black bg-white grow pointer f6 dib" 
                     type="submit" 
                     value="Sign in" />

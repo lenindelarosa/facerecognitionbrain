@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { useFormik } from 'formik'
 import * as Yup from "yup";
-import './Signin.css'
 
 const validate = values => {
     const errors = {};
@@ -20,6 +19,8 @@ const validate = values => {
   };
 
 export default function Signin (props) {
+
+    const [errLogin, setErrLogin] = useState(false);
  
     const formik = useFormik({
         initialValues: {
@@ -42,24 +43,12 @@ export default function Signin (props) {
                     props.loadUser(user);
                     props.onRouteChange('home');
                 }
-            }) 
+                else {
+                    setErrLogin(true);
+                }
+            })
         }
       });
-
-    // useEffect(() => {
-    //     const listener = (event) => {
-    //       if (event.code === "Enter" || event.code === "NumpadEnter") {
-    //         console.log("Enter key was pressed. Run your function.");
-    //         event.preventDefault();
-    //         onSubmitSignIn();
-    //       }
-    //     };
-    //     document.addEventListener("keydown", listener);
-    //     return () => {
-    //         document.removeEventListener("keydown", listener);
-    //         console.log('removing listener.')
-    //       };
-    //   }, []);
 
     const { onRouteChange } = props;
     return (
@@ -103,6 +92,9 @@ export default function Signin (props) {
                     type="submit" 
                     value="Sign in" />
                 </div>
+                {(errLogin) ? (
+                    <div className="red pa2 b underline f7 tl"> Wrong username/password combination.</div>
+                ):null}
                 </form>
                 <div className="lh-copy mt3">
                     <p onClick={() => onRouteChange('register')} href="#0" className="f5 pointer dim black db b">Register</p>

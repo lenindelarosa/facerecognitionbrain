@@ -13,7 +13,7 @@ const validate = values => {
     if (!values.password) {
         errors.password = '*Required';
       } else if (values.password.length <3) {
-        errors.password = '*Password must not be empty.';
+        errors.password = '*Password must be greater than 3.';
       }
     return errors;
   };
